@@ -72,10 +72,8 @@ This extension is not intended for use by children under 13. We do not knowingly
 
 We may update this privacy policy from time to time. Any changes will be posted with an updated "Last Updated" date.
 
-## Contact Information
 
-If you have questions about this privacy policy, please contact us at:
-**Email**: [Your contact email]
+
 
 ## Compliance
 
