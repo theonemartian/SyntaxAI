@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNTAX Settings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SYNTAX</h1>
+            <p class="subtitle">AI Text Rephraser</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>OpenAI API Configuration</h2>
+                <p class="description">
+                    Enter your OpenAI API key to enable text rephrasing functionality.
+                </p>
+                
+                <div class="input-group">
+                    <label for="apiKey">API Key:</label>
+                    <input 
+                        type="password" 
+                        id="apiKey" 
+                        placeholder="sk-..." 
+                        autocomplete="off"
+                    >
+                    <button type="button" id="toggleVisibility" class="toggle-btn" title="Toggle visibility">
+                        👁️
+                    </button>
+                </div>
+                
+                <div class="button-group">
+                    <button id="saveBtn" class="btn btn-primary">Save API Key</button>
+                    <button id="testBtn" class="btn btn-secondary">Test Connection</button>
+                </div>
+                
+                <div id="status" class="status hidden"></div>
+            </div>
+            
+            <div class="section">
+                <h2>How to Use</h2>
+                <ol class="instructions">
+                    <li>Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a></li>
+                    <li>Enter and save your API key above</li>
+                    <li>Select any text on a webpage</li>
+                    <li>Right-click and choose "Rephrase with AI"</li>
+                    <li>The selected text will be replaced with AI-rephrased content</li>
+                </ol>
+            </div>
+            
+            <div class="section">
+                <h2>Features</h2>
+                <ul class="features">
+                    <li>✨ Professional text rephrasing</li>
+                    <li>🎯 Works on any website</li>
+                    <li>📝 Supports input fields and text areas</li>
+                    <li>⚡ Fast and secure processing</li>
+                    <li>🔒 API key stored locally</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>Privacy & Security</h2>
+                <p class="privacy-note">
+                    Your API key is stored securely in your browser's local storage and is never shared. 
+                    Text is sent directly to OpenAI's servers for processing and is not stored by this extension.
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>SYNTAX v1.0.0 | Made with ❤️ for better writing</p>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
