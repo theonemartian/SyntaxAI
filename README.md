@@ -1,14 +1,18 @@
 # SYNTAX - AI Text Rephraser Chrome Extension
 
-A powerful Chrome extension that allows users to rephrase selected text using OpenAI's ChatGPT API for clearer, more professional writing.
+A powerful Chrome extension that uses the latest **GPT-4.1 Nano** model to rephrase selected text with customizable writing styles for clearer, more professional writing.
 
 ## Features
 
+- 🤖 **Latest AI Model**: Powered by OpenAI's GPT-4.1 Nano (2025-04-14) for superior text rephrasing
+- 🎨 **Multiple Writing Styles**: Choose from Professional, Casual, Formal, Concise, Creative, or Custom styles
+- ✏️ **Custom Instructions**: Define your own rephrasing style with personalized instructions
 - 🎯 **Right-click Integration**: Select text and right-click to access "Rephrase with AI"
-- ✨ **Professional Rephrasing**: Uses ChatGPT to make text clearer and more professional
+- ✨ **Smart Text Replacement**: Direct element targeting for reliable text replacement
 - 📝 **Universal Compatibility**: Works on any website with text inputs, textareas, and contenteditable elements
 - ⚡ **Fast Processing**: Quick API responses with loading indicators
-- 🔒 **Secure Storage**: API keys stored locally in Chrome's sync storage
+- 📏 **Longer Text Support**: Handles up to ~3000 tokens (≈12,000 characters) of text
+- 🔒 **Secure Storage**: API keys and preferences stored locally in Chrome's sync storage
 - 🎨 **Modern UI**: Clean, intuitive popup interface for configuration
 
 ## Installation
@@ -18,6 +22,53 @@ A powerful Chrome extension that allows users to rephrase selected text using Op
 1. **Download the Extension**
    - Clone or download this repository
    - Extract the files to a folder on your computer
+
+2. **Enable Developer Mode**
+   - Open Chrome and go to `chrome://extensions/`
+   - Toggle "Developer mode" in the top right corner
+
+3. **Load the Extension**
+   - Click "Load unpacked"
+
+
+## 🎨 Writing Styles Available
+
+### 📋 **Built-in Styles**
+- **Professional** (Default): Clear, professional, and well-structured
+- **Casual**: Friendly, conversational, and approachable
+- **Formal**: Academic, precise, and sophisticated
+- **Concise**: Brief, direct, and to the point
+- **Creative**: Engaging, vivid, and interesting
+
+### ✏️ **Custom Style**
+Define your own rephrasing instructions:
+- "Make it sound more confident and persuasive"
+- "Use simple words that a 12-year-old can understand"
+- "Add more technical details and industry jargon"
+- "Make it sound more empathetic and caring"
+
+## ⚙️ Setup
+
+1. Click the SYNTAX extension icon in your toolbar
+2. Enter your OpenAI API key in the popup
+3. **Choose your preferred writing style:**
+   - **Professional** (Default): Clear and professional
+   - **Casual**: Friendly and conversational
+   - **Formal**: Academic and sophisticated
+   - **Concise**: Brief and direct
+   - **Creative**: Engaging and vivid
+   - **Custom**: Define your own style with specific instructions
+4. Click "Save All Settings"
+5. Use "Test Connection" to verify your setup
+
+### 🎨 Custom Style Examples
+
+When selecting "Custom Style", you can provide specific instructions like:
+- *"Make it sound more confident and assertive"*
+- *"Use simple language that anyone can understand"*
+- *"Add more technical details and industry terminology"*
+- *"Make it more empathetic and understanding"*
+- *"Write in a storytelling format with examples"*
 
 2. **Enable Developer Mode**
    - Open Chrome and go to `chrome://extensions/`
@@ -48,11 +99,52 @@ A powerful Chrome extension that allows users to rephrase selected text using Op
 3. Click "Save API Key"
 4. Optionally, click "Test Connection" to verify your key works
 
+
 # SYNTAX - AI Text Rephraser Chrome Extension
 
-A simple and effective Chrome extension that uses ChatGPT API to rephrase selected text on any webpage for clearer, more professional writing.
+A simple and effective Chrome extension that uses ChatGPT API to rephrase selected text on any webpage with customizable writing styles for clearer, more professional writing.
 
 ## ✨ Key Features
+
+- **Simple & Direct**: Captures the exact element where text is selected and replaces it directly
+- **Multiple Writing Styles**: Choose from Professional, Casual, Formal, Concise, Creative, or Custom styles
+- **Custom Instructions**: Define your own rephrasing style with personalized instructions
+- **Universal Compatibility**: Works on input fields, textareas, and contenteditable elements
+- **Secure API Integration**: Your OpenAI API key is stored securely in Chrome's sync storage
+- **Smart Element Detection**: Uses XPath to precisely identify and target elements
+- **Longer Text Support**: Handles up to ~3000 tokens (≈12,000 characters) of text
+- **Clean Interface**: Minimal, non-intrusive notifications
+
+## 🎨 Writing Styles Available
+
+### 📋 **Built-in Styles**
+- **Professional** (Default): Clear, professional, and well-structured
+- **Casual**: Friendly, conversational, and approachable
+- **Formal**: Academic, precise, and sophisticated
+- **Concise**: Brief, direct, and to the point
+- **Creative**: Engaging, vivid, and interesting
+
+### ✏️ **Custom Style**
+Define your own rephrasing instructions:
+- "Make it sound more confident and persuasive"
+- "Use simple words that a 12-year-old can understand"
+- "Add more technical details and industry jargon"
+- "Make it sound more empathetic and caring"
+
+## 🎯 How It Works
+
+### Simple 2-Step Process
+
+1. **Capture Selection**: When you select text, the extension captures:
+   - The exact element (input, textarea, or contenteditable)
+   - The element's XPath for precise targeting
+   - Selection start/end positions for inputs
+   - Text node details for contenteditable areas
+
+2. **Direct Replacement**: Replace text directly in the captured element:
+   - **Input/Textarea**: Direct value replacement with proper event triggering
+   - **Contenteditable**: Text content replacement with input events
+   - **Text Nodes**: Direct node value replacement
 
 - **Simple & Direct**: Captures the exact element where text is selected and replaces it directly
 - **Universal Compatibility**: Works on input fields, textareas, and contenteditable elements

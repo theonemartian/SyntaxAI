@@ -10,73 +10,46 @@
     <div class="container">
         <div class="header">
             <h1>SYNTAX</h1>
-            <p class="subtitle">AI Text Rephraser</p>
+            <p>AI Text Rephraser</p>
         </div>
-        
-        <div class="content">
-            <div class="section">
-                <h2>OpenAI API Configuration</h2>
-                <p class="description">
-                    Enter your OpenAI API key to enable text rephrasing functionality.
-                </p>
-                
-                <div class="input-group">
-                    <label for="apiKey">API Key:</label>
-                    <input 
-                        type="password" 
-                        id="apiKey" 
-                        placeholder="sk-..." 
-                        autocomplete="off"
-                    >
-                    <button type="button" id="toggleVisibility" class="toggle-btn" title="Toggle visibility">
-                        👁️
-                    </button>
-                </div>
-                
-                <div class="button-group">
-                    <button id="saveBtn" class="btn btn-primary">Save API Key</button>
-                    <button id="testBtn" class="btn btn-secondary">Test Connection</button>
-                </div>
-                
-                <div id="status" class="status hidden"></div>
-            </div>
-            
-            <div class="section">
-                <h2>How to Use</h2>
-                <ol class="instructions">
-                    <li>Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a></li>
-                    <li>Enter and save your API key above</li>
-                    <li>Select any text on a webpage</li>
-                    <li>Right-click and choose "Rephrase with AI"</li>
-                    <li>The selected text will be replaced with AI-rephrased content</li>
-                </ol>
-            </div>
-            
-            <div class="section">
-                <h2>Features</h2>
-                <ul class="features">
-                    <li>✨ Professional text rephrasing</li>
-                    <li>🎯 Works on any website</li>
-                    <li>📝 Supports input fields and text areas</li>
-                    <li>⚡ Fast and secure processing</li>
-                    <li>🔒 API key stored locally</li>
-                </ul>
-            </div>
-            
-            <div class="section">
-                <h2>Privacy & Security</h2>
-                <p class="privacy-note">
-                    Your API key is stored securely in your browser's local storage and is never shared. 
-                    Text is sent directly to OpenAI's servers for processing and is not stored by this extension.
-                </p>
+
+        <div class="form-group">
+            <label for="apiKey">OpenAI API Key:</label>
+            <input type="password" id="apiKey" placeholder="sk-...">
+            <div class="input-actions">
+                <button id="saveKey" class="btn btn-primary">Save API Key</button>
+                <button id="testConnection" class="btn btn-secondary">Test Connection</button>
             </div>
         </div>
-        
+
+        <div class="form-group">
+            <label for="rephraseStyle">Rephrase Style:</label>
+            <select id="rephraseStyle" class="style-select">
+                <option value="professional">Professional & Clear</option>
+                <option value="casual">Casual & Friendly</option>
+                <option value="formal">Formal & Academic</option>
+                <option value="concise">Concise & Brief</option>
+                <option value="creative">Creative & Engaging</option>
+                <option value="custom">Custom Style</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="customStyleGroup" style="display: none;">
+            <label for="customStyle">Custom Instructions:</label>
+            <textarea id="customStyle" placeholder="e.g., Make it sound more confident and persuasive..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <button id="saveSettings" class="btn btn-primary full-width">Save All Settings</button>
+        </div>
+
+        <div id="status" class="status"></div>
+
         <div class="footer">
-            <p>SYNTAX v1.0.0 | Made with ❤️ for better writing</p>
+            <p>Select text on any webpage, right-click, and choose "Rephrase with AI"</p>
         </div>
     </div>
-    
+
     <script src="popup.js"></script>
 </body>
 </html>

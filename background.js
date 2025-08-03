@@ -24,8 +24,34 @@ function createContextMenu() {
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === "syntax-rephrase" && info.selectionText) {
     try {
-      // Get API key from storage
-      const result = await chrome.storage.sync.get(['openaiApiKey']);
+      const selectedText = info.selectionText.trim();
+
+      // Check text length (rough estimate: 1 token ≈ 4 characters)
+      const estimatedTokens = Math.ceil(selectedText.length / 4);
+      const maxInputTokens = 3000; // Leave room for system prompt and response
+
+      if (estimatedTokens > maxInputTokens) {
+        await sendMessageToTab(tab.id, {
+          action: "showError",
+          message: `Selected text is too long (≈${estimatedTokens} tokens). Please select shorter text (max ≈${maxInputTokens} tokens).`
+        });
+        return;
+      }
+
+      if (selectedText.length < 3) {
+        await sendMessageToTab(tab.id, {
+          action: "showError",
+          message: "Please select more text to rephrase (minimum 3 characters)."
+        });
+        return;
+      }
+
+      // Get settings from storage
+      const result = await chrome.storage.sync.get([
+        'openaiApiKey',
+        'rephraseStyle',
+        'customStyle'
+      ]);
 
       if (!result.openaiApiKey) {
         // Send message to content script to show error
@@ -39,11 +65,16 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       // Send message to content script to start rephrasing
       await sendMessageToTab(tab.id, {
         action: "startRephrase",
-        selectedText: info.selectionText
+        selectedText: selectedText
       });
 
-      // Call OpenAI API
-      const rephrasedText = await rephraseText(info.selectionText, result.openaiApiKey);
+      // Call OpenAI API with user preferences
+      const rephrasedText = await rephraseText(
+        selectedText,
+        result.openaiApiKey,
+        result.rephraseStyle || 'professional',
+        result.customStyle || ''
+      );
 
       // Send rephrased text back to content script
       await sendMessageToTab(tab.id, {
@@ -62,8 +93,34 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
-// Function to call OpenAI API
-async function rephraseText(text, apiKey) {
+// Function to rephrase text using OpenAI API
+async function rephraseText(text, apiKey, rephraseStyle = 'professional', customStyle = '') {
+  // Create system prompt based on style preference
+  let systemPrompt = '';
+
+  switch (rephraseStyle) {
+    case 'professional':
+      systemPrompt = 'You are a professional writing assistant. Rephrase the given text to make it clearer, more professional, and better structured while maintaining the original meaning and tone. Return only the rephrased text without any additional commentary.';
+      break;
+    case 'casual':
+      systemPrompt = 'You are a friendly writing assistant. Rephrase the given text to make it more casual, conversational, and approachable while keeping the original meaning. Return only the rephrased text without any additional commentary.';
+      break;
+    case 'formal':
+      systemPrompt = 'You are an academic writing assistant. Rephrase the given text to make it more formal, precise, and scholarly while maintaining the original meaning. Use sophisticated vocabulary and proper academic tone. Return only the rephrased text without any additional commentary.';
+      break;
+    case 'concise':
+      systemPrompt = 'You are a concise writing assistant. Rephrase the given text to make it shorter, more direct, and to the point while preserving all important information and meaning. Remove unnecessary words and make it as brief as possible. Return only the rephrased text without any additional commentary.';
+      break;
+    case 'creative':
+      systemPrompt = 'You are a creative writing assistant. Rephrase the given text to make it more engaging, vivid, and interesting while maintaining the original meaning. Use creative language, metaphors, and compelling expressions. Return only the rephrased text without any additional commentary.';
+      break;
+    case 'custom':
+      systemPrompt = `You are a writing assistant. Rephrase the given text according to these specific instructions: "${customStyle}". Maintain the original meaning while following the provided style guidelines. Return only the rephrased text without any additional commentary.`;
+      break;
+    default:
+      systemPrompt = 'You are a professional writing assistant. Rephrase the given text to make it clearer, more professional, and better structured while maintaining the original meaning and tone. Return only the rephrased text without any additional commentary.';
+  }
+
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -71,25 +128,25 @@ async function rephraseText(text, apiKey) {
       'Authorization': `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4.1-nano-2025-04-14',
       messages: [
         {
           role: 'system',
-          content: 'You are a professional writing assistant. Rephrase the given text to make it clearer, more professional, and better structured while maintaining the original meaning and tone. Return only the rephrased text without any additional commentary.'
+          content: systemPrompt
         },
         {
           role: 'user',
-          content: `Please rephrase the following text: "${text}"`
+          content: `Please rephrase the following text and correct any grammatical mistakes there is: "${text}"`
         }
       ],
-      max_tokens: 500,
+      max_tokens: 2000,
       temperature: 0.7
     })
   });
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    
+
     if (response.status === 401) {
       throw new Error('Invalid API key. Please check your OpenAI API key.');
     } else if (response.status === 429) {
@@ -102,11 +159,6 @@ async function rephraseText(text, apiKey) {
   }
 
   const data = await response.json();
-  
-  if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-    throw new Error('Invalid response from OpenAI API');
-  }
-
   return data.choices[0].message.content.trim();
 }
 
